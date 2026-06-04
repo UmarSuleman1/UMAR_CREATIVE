@@ -2,141 +2,339 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Umar Creative | Premium Visual Designer</title>
+    <!-- Mobile scaling perfectly locked to prevent manual zooming -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Umar Creative | Premium Visual Designer & Brand Manager</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     
+    <!-- GSAP Core & ScrollTrigger Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
     <style>
+        /* BRAND PALETTE & VARIABLE MATRIX */
         :root {
             --bg-color: #05070c;
             --text-color: #ffffff;
             --accent-color: #22d3ee; 
             --gray-text: #8a8a93;
             --card-bg: rgba(255, 255, 255, 0.02);
-            --card-border: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.06);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
-        html { scroll-behavior: smooth; }
-        body { background-color: var(--bg-color); color: var(--text-color); font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; cursor: none; }
+        /* GLOBALS & OVERFLOW FIXES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        html, body { 
+            scroll-behavior: smooth; 
+            width: 100%;
+            max-width: 100vw;
+            overflow-x: hidden; /* Prevents mobile horizontal shaking/scrolling */
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body { cursor: none; }
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
+        img { max-width: 100%; height: auto; display: block; }
 
-        #custom-cursor { width: 16px; height: 16px; background: #ffffff; border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; mix-blend-mode: difference; transition: transform 0.15s ease; }
-        .ambient-glow { position: fixed; width: 600px; height: 600px; background: radial-gradient(circle, rgba(34, 211, 238, 0.08) 0%, rgba(0,0,0,0) 70%); top: -10%; left: -10%; z-index: 0; pointer-events: none; filter: blur(50px); }
+        /* INTERACTIVE LIGHTING EFFECTS */
+        #custom-cursor {
+            width: 16px;
+            height: 16px;
+            background: #ffffff;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.15s ease;
+        }
 
-        /* HEADER & LOGO */
-        header { position: fixed; top: 0; width: 100%; padding: 25px 8%; display: flex; justify-content: space-between; align-items: center; z-index: 100; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
-        .logo-container { display: flex; align-items: center; cursor: none; }
-        .logo-symbol { width: 200px; height: auto; display: block; }
-        
+        .ambient-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(34, 211, 238, 0.04) 0%, rgba(0,0,0,0) 70%);
+            top: -10%;
+            left: -10%;
+            z-index: 0;
+            pointer-events: none;
+            filter: blur(40px);
+        }
+
+        /* HEADER NAV STATION */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 25px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .logo-container { display: flex; align-items: center; gap: 12px; cursor: none; }
+        .logo-symbol { width: 230px; height: auto; }
+
         nav ul { display: flex; gap: 2.5rem; }
         nav a { font-size: 0.85rem; font-weight: 600; letter-spacing: 1px; color: var(--gray-text); transition: 0.3s; }
         nav a:hover, nav a.active { color: #fff; }
-        .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; }
-        .hamburger span { width: 22px; height: 2px; background: #fff; }
 
-        /* HERO SECTION */
-        .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 8%; position: relative; z-index: 1; }
-        .hero-chip { align-self: flex-start; font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase; color: var(--accent-color); border: 1px solid rgba(34, 211, 238, 0.3); padding: 6px 18px; margin-bottom: 1.5rem; background: rgba(34, 211, 238, 0.05); border-radius: 50px; }
-        .scroll-fade-text { font-family: 'Syne', sans-serif; font-size: clamp(2.5rem, 7.5vw, 6.5rem); line-height: 1.05; font-weight: 800; letter-spacing: -3px; margin-bottom: 25px; }
-        .scroll-fade-text span { background: linear-gradient(135deg, #ffffff, var(--gray-text)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero p { font-size: 1.15rem; color: var(--gray-text); max-width: 550px; line-height: 1.6; margin-bottom: 2.5rem; }
+        .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 5px; }
+        .hamburger span { width: 24px; height: 2px; background: #fff; transition: 0.3s; }
+
+        /* HERO EXPLOSION SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 8%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-chip { align-self: flex-start; font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase; color: var(--accent-color); border: 1px solid rgba(34, 211, 238, 0.25); padding: 7px 20px; margin-bottom: 1.5rem; background: rgba(34, 211, 238, 0.04); border-radius: 50px; }
+        
+        .hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2.5rem, 6.5vw, 5.5rem);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -2px;
+            margin-bottom: 25px;
+        }
+        .hero h1 span { color: var(--accent-color); }
+
+        .hero p {
+            font-size: clamp(1rem, 1.8vw, 1.2rem);
+            color: var(--gray-text);
+            max-width: 620px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
         .hero-btns { display: flex; gap: 16px; }
-        .btn-fill { padding: 14px 36px; background: #ffffff; color: #000; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 0.9rem; border-radius: 50px; transition: 0.3s; }
+        .btn-fill { padding: 15px 38px; background: #ffffff; color: #000; font-weight: 600; font-size: 0.9rem; border-radius: 50px; transition: 0.3s; cursor: none;}
         .btn-fill:hover { background: var(--accent-color); color: #fff; transform: translateY(-3px); }
-        .btn-line { padding: 14px 36px; background: transparent; color: #ffffff; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 0.9rem; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50px; transition: 0.3s; }
+        .btn-line { padding: 15px 38px; background: transparent; color: #ffffff; font-weight: 600; font-size: 0.9rem; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50px; transition: 0.3s; cursor: none;}
         .btn-line:hover { border-color: #fff; background: rgba(255,255,255,0.05); transform: translateY(-3px); }
 
-        /* GENERAL SECTIONS */
-        .section { position: relative; z-index: 2; padding: 8rem 8%; }
-        .container { max-width: 1300px; margin: 0 auto; }
-        .sec-label { font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase; color: var(--accent-color); margin-bottom: 12px; font-weight: 600; }
-        .sec-title { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 3.5rem; }
+        /* 3D FLOATING CAROUSEL SCENE */
+        .showcase-scene {
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            perspective: 1200px;
+            width: 100%;
+            overflow: hidden;
+        }
 
-        /* WHY CHOOSE US */
-        .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
-        .why-card { background: var(--card-bg); border: 1px solid var(--card-border); padding: 3rem 2rem; border-radius: 16px; transition: 0.4s ease; }
-        .why-card:hover { border-color: rgba(34, 211, 238, 0.3); background: rgba(34, 211, 238, 0.02); transform: translateY(-5px); }
-        .why-icon { font-size: 2.5rem; margin-bottom: 1.5rem; display: block; color: var(--accent-color); }
-        .why-card h3 { font-family: 'Syne', sans-serif; font-size: 1.3rem; margin-bottom: 0.5rem; }
-        .why-card p { color: var(--gray-text); font-size: 0.95rem; }
+        .cards-deck {
+            position: relative;
+            width: 320px;
+            height: 450px;
+            transform-style: preserve-3d;
+        }
 
-        /* SERVICES */
-        .svc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
-        .svc-card { background: var(--card-bg); border: 1px solid var(--card-border); padding: 3.5rem 2.5rem; border-radius: 20px; position: relative; overflow: hidden; transition: 0.4s ease; }
-        .svc-card:hover { border-color: rgba(34, 211, 238, 0.4); background: rgba(34, 211, 238, 0.02); transform: translateY(-5px); }
-        .svc-num { font-family: 'Syne', sans-serif; font-size: 6rem; font-weight: 800; color: rgba(255,255,255,0.02); position: absolute; top: -10px; right: 20px; pointer-events: none; }
-        .svc-title { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; }
-        .svc-list li { color: var(--gray-text); font-size: 1rem; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.02); position: relative; padding-left: 18px; }
-        .svc-list li::before { content: '→'; color: var(--accent-color); position: absolute; left: 0; }
-        .svc-list { margin-bottom: 2rem; }
+        .portfolio-card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.7);
+            background: #0b0f19;
+        }
 
-        /* 3D SHOWCASE FAN */
-        .showcase-container { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; perspective: 1500px; padding: 6px 0; }
-        .card-fan-scene { width: 100%; max-width: 1200px; height: 500px; position: relative; display: flex; justify-content: center; align-items: center; transform-style: preserve-3d; }
-        .portfolio-card { position: absolute; width: 300px; height: 420px; background: #0d0f14; border: 1px solid var(--card-border); border-radius: 20px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 30px 60px rgba(0,0,0,0.5); transform-origin: bottom center; cursor: pointer; }
-        .card-image-slot { width: 100%; height: 75%; background: #161920; border-radius: 12px; overflow: hidden; }
-        .card-image-slot img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: 0.4s; }
-        .portfolio-card:hover .card-image-slot img { scale: 1.05; opacity: 1; }
-        .card-info h3 { font-family: 'Syne', sans-serif; font-size: 1.2rem; margin-top: 12px; }
-        .card-info p { color: var(--gray-text); font-size: 0.85rem; margin-top: 2px; }
+        .portfolio-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-        /* RECENT WORK GALLERY */
-        .port-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
-        .pc { position: relative; border-radius: 12px; overflow: hidden; aspect-ratio: 4/3; background: #11141a; border: 1px solid var(--card-border); cursor: pointer; transition: 0.4s; }
-        .pc img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .pc:hover { border-color: var(--accent-color); transform: translateY(-4px); }
-        .pc:hover img { transform: scale(1.06); }
-        .pc-ov { position: absolute; inset: 0; opacity: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent 70%); display: flex; align-items: flex-end; padding: 1.2rem; transition: 0.3s; }
-        .pc:hover .pc-ov { opacity: 1; }
-        .pc-badge { font-size: .7rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; background: var(--accent-color); padding: 4px 12px; border-radius: 4px; color: #fff; }
+        /* METRICS & STUDIO INTRO SECTION */
+        .about-studio {
+            padding: 100px 8%;
+            position: relative;
+            z-index: 2;
+            border-top: 1px solid var(--card-border);
+        }
 
-        /* CTA & FOOTER */
-        .cta { text-align: center; padding: 10rem 8%; border-top: 1px solid var(--card-border); background: rgba(255,255,255,0.01); position: relative; z-index: 2;}
-        .cta h2 { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 1rem; letter-spacing: -2px; }
-        .cta p { color: var(--gray-text); margin-bottom: 2.5rem; font-size: 1.1rem; }
-        footer { text-align: center; padding: 2.5rem; color: var(--gray-text); font-size: 0.85rem; border-top: 1px solid var(--card-border); position: relative; z-index: 2; }
+        .section-tag { font-size: 0.75rem; text-transform: uppercase; color: var(--accent-color); letter-spacing: 3px; margin-bottom: 1rem; display: block; }
+        .section-title { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 700; margin-bottom: 3rem; }
 
-        /* LIGHTBOX & WHATSAPP */
-        .lb { display: none; position: fixed; inset: 0; background: rgba(5,7,12,0.96); z-index: 10000; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-        .lb img { max-width: 92%; max-height: 88vh; border-radius: 8px; box-shadow: 0 0 50px rgba(34, 211, 238, 0.15); border: 1px solid rgba(255,255,255,0.05); }
-        .lb-x { position: absolute; top: 25px; right: 35px; color: #fff; font-size: 40px; cursor: pointer; font-family: 'Syne', sans-serif; transition: 0.3s; }
-        .lb-x:hover { color: var(--accent-color); }
+        .about-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 60px; align-items: center; }
+        .about-text { font-size: 1.15rem; color: var(--gray-text); line-height: 1.7; }
         
-        .whatsapp-float { position: fixed; bottom: 40px; right: 40px; width: 60px; height: 60px; background: var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 32px rgba(34, 211, 238, 0.3); z-index: 999; transition: 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
-        .whatsapp-float:hover { transform: translateY(-6px) scale(1.05); box-shadow: 0 12px 40px rgba(34, 211, 238, 0.6); }
+        .stats-holder { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+        .stat-box { background: var(--card-bg); border: 1px solid var(--card-border); padding: 30px; border-radius: 16px; text-align: center; }
+        .stat-box h3 { font-family: 'Syne', sans-serif; font-size: 2.5rem; color: var(--accent-color); margin-bottom: 5px; }
+        .stat-box p { font-size: 0.85rem; color: var(--gray-text); letter-spacing: 1px; text-transform: uppercase; }
+
+        /* SERVICES GRID STATIONS */
+        .services-station {
+            padding: 100px 8%;
+            position: relative;
+            z-index: 2;
+            background: rgba(255,255,255,0.01);
+            border-top: 1px solid var(--card-border);
+        }
+
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .service-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px;
+            border-radius: 20px;
+            transition: 0.4s ease;
+        }
+        .service-card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-5px);
+            background: rgba(34, 211, 238, 0.02);
+        }
+        .service-icon { font-size: 2.5rem; color: var(--accent-color); margin-bottom: 20px; }
+        .service-card h4 { font-family: 'Syne', sans-serif; font-size: 1.4rem; margin-bottom: 15px; }
+        .service-card p { color: var(--gray-text); line-height: 1.6; font-size: 0.95rem; }
+
+        /* PREMIUM FEATURED EXHIBITIONS */
+        .exhibition-deck {
+            padding: 100px 8%;
+            position: relative;
+            z-index: 2;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .work-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; }
+        .work-item { border-radius: 24px; overflow: hidden; position: relative; aspect-ratio: 4/3; border: 1px solid var(--card-border); }
+        .work-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s ease; }
+        .work-meta { 
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 40px; 
+            background: linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0) 100%); 
+            transform: translateY(20px); opacity: 0; transition: 0.4s ease;
+        }
+        .work-item:hover img { transform: scale(1.05); }
+        .work-item:hover .work-meta { transform: translateY(0); opacity: 1; }
+        .work-meta h5 { font-family: 'Syne', sans-serif; font-size: 1.5rem; margin-bottom: 8px; }
+        .work-meta p { color: var(--accent-color); font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; }
+
+        /* INTERACTIVE CONTACT ACTION LAYER */
+        .contact-cta-layer {
+            padding: 120px 8%;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            border-top: 1px solid var(--card-border);
+            background: radial-gradient(circle at center, rgba(34, 211, 238, 0.03) 0%, rgba(0,0,0,0) 70%);
+        }
+        .contact-cta-layer h2 { font-family: 'Syne', sans-serif; font-size: clamp(2.2rem, 5vw, 4.5rem); font-weight: 800; margin-bottom: 20px; }
+        .contact-cta-layer p { color: var(--gray-text); max-width: 550px; margin: 0 auto 40px auto; font-size: 1.1rem; }
+
+        /* FLOATING COMMUNICATIONS DECK (WHATSAPP) */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 60px;
+            height: 60px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(34, 211, 238, 0.3);
+            z-index: 999;
+            transition: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            cursor: none;
+        }
+        .whatsapp-float:hover {
+            transform: translateY(-6px) scale(1.05);
+            box-shadow: 0 12px 40px rgba(34, 211, 238, 0.5);
+        }
         .whatsapp-float svg { fill: #05070c; width: 26px; height: 26px; }
 
-        /* MOBILE ADJUSTMENTS */
-        @media(max-width:768px){
-            header { padding: 15px 5%; }
-            .logo-symbol { width: 130px; max-width: 42vw; }
-            nav ul { display: none; position: fixed; top: 70px; left: 0; right: 0; background: #05070c; flex-direction: column; padding: 1rem 0; border-bottom: 1px solid var(--card-border); }
+        footer { text-align: center; padding: 40px 8%; color: var(--gray-text); font-size: 0.85rem; border-top: 1px solid var(--card-border); position: relative; z-index: 2; }
+
+        /* ── PERFECT RESPONSIVE MATRIX ENGINE (MOBILE CRITICAL FIXES) ── */
+        @media(max-width: 992px) {
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            .work-grid { grid-template-columns: 1fr; gap: 30px; }
+        }
+
+        @media(max-width: 768px) {
+            header { padding: 18px 6%; }
+            .logo-symbol { width: 135px; max-width: 45vw; }
+            
+            nav ul { 
+                display: none; position: fixed; top: 72px; left: 0; right: 0; 
+                background: #05070c; flex-direction: column; padding: 20px 0; 
+                border-bottom: 1px solid var(--card-border); z-index: 99;
+            }
             nav ul.open { display: flex; }
-            nav ul li a { display: block; padding: 1rem 8%; }
+            nav ul li a { display: block; padding: 14px 8%; font-size: 1rem; }
             .hamburger { display: flex; }
+            
             body { cursor: default; }
             #custom-cursor { display: none; }
-            .whatsapp-float { bottom: 25px; right: 25px; width: 52px; height: 52px; }
+
+            /* Mobile Margins & Center Matrix Alignment Fixes */
+            .hero { padding: 0 6%; text-align: center; align-items: center; }
+            .hero-chip { align-self: center; margin: 0 auto 1.5rem auto; font-size: 0.65rem; padding: 6px 14px; letter-spacing: 2px; }
+            .hero h1 { font-size: 2.4rem; letter-spacing: -1px; margin-bottom: 18px; line-height: 1.15; word-wrap: break-word; }
+            .hero p { font-size: 0.95rem; margin: 0 auto 30px auto; padding: 0 5px; max-width: 100%; }
+            .hero-btns { flex-direction: column; width: 100%; gap: 12px; }
+            .btn-fill, .btn-line { width: 100%; text-align: center; padding: 14px 20px; }
+
+            /* 3 Images on Mobile Strategy: Hide the 4th and 5th cards completely */
+            .desktop-only-card { display: none !important; }
+
+            /* Compact Screen Slider Engine Matrix */
+            .showcase-scene { min-height: 75vh; }
+            .cards-deck { width: 190px; height: 265px; } /* Clean, downscaled boundaries */
+
+            .about-studio, .services-station, .exhibition-deck, .contact-cta-layer { padding: 60px 6%; }
+            .stats-holder { grid-template-columns: 1fr; gap: 20px; }
+            
+            .work-meta { opacity: 1; transform: translateY(0); padding: 20px; background: rgba(5,7,12,0.85); }
+            .work-meta h5 { font-size: 1.2rem; }
+
+            .whatsapp-float { bottom: 25px; right: 25px; width: 54px; height: 54px; }
+            .whatsapp-float svg { width: 22px; height: 22px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- LIGHT & ACCENT HOVER ELEMENTS -->
     <div id="custom-cursor"></div>
     <div class="ambient-glow" id="glow"></div>
 
-    <a href="https://wa.me/923201482901?text=Hi%20Umar,%20I%20am%20interested%20in%20your%20design%20services." class="whatsapp-float" target="_blank">
+    <!-- MAIN WHATSAPP FLOATING HUB -->
+    <a href="https://wa.me/923201482901?text=Hi%20Umar,%20I%20am%20interested%20in%20your%20design%20services." class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
         <svg viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
     </a>
 
+    <!-- STRUCTURAL HEADER -->
     <header>
         <a href="index.html" class="logo-container">
             <img src="images/logo/logo.png" alt="Umar Creative" class="logo-symbol">
@@ -149,206 +347,197 @@
                 <li><a href="contact.html" onclick="closeNav()">Contact Us</a></li>
             </ul>
         </nav>
-        <button class="hamburger" onclick="toggleNav()" aria-label="Menu">
-            <span></span><span></span><span></span>
+        <button class="hamburger" onclick="toggleNav()" aria-label="Toggle Menu">
+            <span></span><span style="margin: 5px 0;"></span><span></span>
         </button>
     </header>
 
+    <!-- SECTION 1: HERO SCENE -->
     <section class="hero" id="hero-trigger">
-        <div class="hero-chip">✦ AI-Crafted Brands, Future-Forward Impact ✦</div>
-        <h1 class="scroll-fade-text" id="hero-title">
-            <span>INNOVATIVE VISION</span><br>
-            <span style="color: var(--accent-color); -webkit-text-fill-color: var(--accent-color);">DRIVES YOUR BRAND</span><br>
-            <span>FORWARD.</span>
-        </h1>
-        <p id="hero-desc">Bridging Connections with Clients through Modern Graphic Design powered by AI creativity.</p>
-        <div class="hero-btns" id="hero-cta-layer">
+        <div class="hero-chip">✦ AI-Powered Brands, Future-Forward Design ✦</div>
+        <h1>INNOVATIVE VISION<br><span>DRIVES YOUR BRAND</span><br>FORWARD.</h1>
+        <p>Elevating digital identities through premium visual design and high-converting branding frameworks. We build custom-tailored visual assets for future-ready market leaders.</p>
+        <div class="hero-btns">
             <a href="contact.html" class="btn-fill">Start Your Project</a>
             <a href="portfolio.html" class="btn-line">View Portfolio</a>
         </div>
     </section>
 
-    <section class="section">
-        <div class="container">
-            <p class="sec-label">// Core Strength</p>
-            <h2 class="sec-title">Why Choose Us?</h2>
-            <div class="why-grid">
-                <div class="why-card">
-                    <span class="why-icon">🚀</span>
-                    <h3>Speed</h3>
-                    <p>Fast Turnaround delivery within 24-48 hours execution.</p>
+    <!-- SECTION 2: 3D INTERACTIVE CAROUSEL -->
+    <section class="showcase-scene" id="trigger-scene">
+        <div class="cards-deck">
+            <!-- These 3 cards appear on both Desktop and Mobile -->
+            <div class="portfolio-card"><img src="images/portfolio/branding/1.jpg" alt="Premium Branding Visual"></div>
+            <div class="portfolio-card"><img src="images/portfolio/print/p1.jpg" alt="Automotive Package Layout"></div>
+            <div class="portfolio-card"><img src="images/portfolio/social/1.jpg" alt="Social Media Asset"></div>
+            
+            <!-- These 2 extra cards will ONLY appear on Desktop -->
+            <div class="portfolio-card desktop-only-card"><img src="images/portfolio/branding/2.jpg" alt="Extra Desktop Visual 1"></div>
+            <div class="portfolio-card desktop-only-card"><img src="images/portfolio/social/2.jpg" alt="Extra Desktop Visual 2"></div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: STUDIO INTRO & INSIGHT METRICS -->
+    <section class="about-studio">
+        <span class="section-tag">01 / BRAND CAPABILITIES</span>
+        <h2 class="section-title">We engineer high-performance visual solutions.</h2>
+        <div class="about-grid">
+            <p class="about-text">
+                Umar Creative translates complex brand concepts into elite, functional graphic realities. Operating at the intersection of classical typography and modern generative asset design, we assist local and global ventures in achieving distinct visual authority.
+            </p>
+            <div class="stats-holder">
+                <div class="stat-box">
+                    <h3>50+</h3>
+                    <p>Brands Upgraded</p>
                 </div>
-                <div class="why-card">
-                    <span class="why-icon">🎨</span>
-                    <h3>Design</h3>
-                    <p>Pixel-Perfect structural layout & corporate premium aesthetics.</p>
-                </div>
-                <div class="why-card">
-                    <div class="why-icon">🤖</div>
-                    <h3>AI Powered</h3>
-                    <p>Smart cutting-edge creative asset production blueprints.</p>
+                <div class="stat-box">
+                    <h3>99%</h3>
+                    <p>Client Retention</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="section">
-        <div class="container">
-            <p class="sec-label">// Capabilities</p>
-            <h2 class="sec-title">Our Exclusive Services</h2>
-            <div class="svc-grid">
-                <div class="svc-card">
-                    <div class="svc-num">01</div>
-                    <div class="svc-title">Modern Print Media</div>
-                    <ul class="svc-list">
-                        <li>Flyer &amp; Brochure Design</li>
-                        <li>Business Cards &amp; Stationery</li>
-                        <li>Posters &amp; Door Hangers</li>
-                        <li>Google Review Cards</li>
-                    </ul>
-                    <a href="contact.html" class="btn-line" style="font-size:.8rem; padding: 10px 24px;">More Info</a>
-                </div>
-                <div class="svc-card" style="border-color: rgba(34, 211, 238, 0.25);">
-                    <div class="svc-num">02</div>
-                    <div class="svc-title">Modern Social Media</div>
-                    <ul class="svc-list">
-                        <li>Social Media Post Design</li>
-                        <li>Brand Identity &amp; Logo</li>
-                        <li>UI/UX Design</li>
-                        <li>Digital Banners &amp; Ads</li>
-                    </ul>
-                    <a href="contact.html" class="btn-fill" style="font-size:.8rem; padding: 10px 24px;">More Info</a>
-                </div>
-                <div class="svc-card">
-                    <div class="svc-num">03</div>
-                    <div class="svc-title">Modern Shopify Website</div>
-                    <ul class="svc-list">
-                        <li>Theme Development</li>
-                        <li>SEO Assistance</li>
-                        <li>Store Migration</li>
-                        <li>Updates &amp; Maintenance</li>
-                    </ul>
-                    <a href="contact.html" class="btn-line" style="font-size:.8rem; padding: 10px 24px;">More Info</a>
+    <!-- SECTION 4: SERVICE DISCOVERY MATRICES -->
+    <section class="services-station">
+        <span class="section-tag">02 / CORE SERVICES</span>
+        <h2 class="section-title">Specialized design services built for market scale.</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">✦</div>
+                <h4>Brand Identity & Strategy</h4>
+                <p>Complete asset production architecture including custom logos, type hierarchies, guidelines, and corporate messaging foundations.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">✦</div>
+                <h4>Print & Packaging Design</h4>
+                <p>Industrial printing designs, packaging blueprints, and complex 3D box mechanics for technical product sectors and manufacturing components.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">✦</div>
+                <h4>Social Media Strategy</h4>
+                <p>Comprehensive design templates, corporate pitch assets, and cross-channel presentation layouts optimized for conversion.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: EXHIBITION WORK PREVIEW -->
+    <section class="exhibition-deck">
+        <span class="section-tag">03 / FEATURED PRODUCTIONS</span>
+        <h2 class="section-title">Selected case applications.</h2>
+        <div class="work-grid">
+            <div class="work-item">
+                <img src="images/portfolio/branding/1.jpg" alt="Corporate Architecture Packaging">
+                <div class="work-meta">
+                    <h5>Automotive Components Branding</h5>
+                    <p>Package Mechanicals & Visual Architecture</p>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section class="section showcase-container">
-        <div class="container" style="width:100%; text-align:center;">
-            <p class="sec-label">// Elite Curation</p>
-            <h2 class="sec-title" style="margin-bottom:0;">Featured Artwork Decks</h2>
-        </div>
-        <div class="card-fan-scene" id="trigger-scene">
-            <div class="portfolio-card" onclick="showLb('images/portfolio/social/1.jpg')">
-                <div class="card-image-slot"><img src="images/portfolio/social/1.jpg" alt="Social 1"></div>
-                <div class="card-info"><h3>Social Identity</h3><p>Social Media Strategy</p></div>
-            </div>
-            <div class="portfolio-card" onclick="showLb('images/portfolio/print/p1.jpg')">
-                <div class="card-image-slot"><img src="images/portfolio/print/p1.jpg" alt="Print 1"></div>
-                <div class="card-info"><h3>Print Mechanics</h3><p>Premium Corporate Layout</p></div>
-            </div>
-            <div class="portfolio-card" onclick="showLb('images/portfolio/branding/1.jpg')">
-                <div class="card-image-slot"><img src="images/portfolio/branding/1.jpg" alt="Branding 1"></div>
-                <div class="card-info"><h3>Brand Blueprint</h3><p>Aesthetic Identity Architecture</p></div>
-            </div>
-            <div class="portfolio-card" onclick="showLb('images/portfolio/social/2.jpg')">
-                <div class="card-image-slot"><img src="images/portfolio/social/2.jpg" alt="Social 2"></div>
-                <div class="card-info"><h3>Avant Garde</h3><p>Creative AI Concept Design</p></div>
+            <div class="work-item">
+                <img src="images/portfolio/social/1.jpg" alt="Healthcare Creative Deck">
+                <div class="work-meta">
+                    <h5>Healthcare Social Layouts</h5>
+                    <p>Visual Growth & Digital Strategy Execution</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="section" style="padding-top: 2rem;">
-        <div class="container">
-            <p class="sec-label">// Index Deck</p>
-            <h2 class="sec-title">Recent Work Gallery</h2>
-            <div class="port-grid">
-                <div class="pc" onclick="showLb('images/portfolio/social/1.jpg')"><img src="images/portfolio/social/1.jpg" alt="Social"><div class="pc-ov"><span class="pc-badge">Social Media</span></div></div>
-                <div class="pc" onclick="showLb('images/portfolio/social/2.jpg')"><img src="images/portfolio/social/2.jpg" alt="Social"><div class="pc-ov"><span class="pc-badge">Social Media</span></div></div>
-                <div class="pc" onclick="showLb('images/portfolio/social/3.jpg')"><img src="images/portfolio/social/3.jpg" alt="Social"><div class="pc-ov"><span class="pc-badge">Social Media</span></div></div>
-                <div class="pc" onclick="showLb('images/portfolio/print/p1.jpg')"><img src="images/portfolio/print/p1.jpg" alt="Print"><div class="pc-ov"><span class="pc-badge">Print Media</span></div></div>
-                <div class="pc" onclick="showLb('images/portfolio/print/p2.jpg')"><img src="images/portfolio/print/p2.jpg" alt="Print"><div class="pc-ov"><span class="pc-badge">Print Media</span></div></div>
-                <div class="pc" onclick="showLb('images/portfolio/print/p3.jpg')"><img src="images/portfolio/print/p3.jpg" alt="Print"><div class="pc-ov"><span class="pc-badge">Print Media</span></div></div>
-                <div class="pc" onclick="showLb('images/portfolio/branding/1.jpg')"><img src="images/portfolio/branding/1.jpg" alt="Branding"><div class="pc-ov"><span class="pc-badge">Branding</span></div></div>
-                <div class="pc" onclick="showLb('images/portfolio/branding/2.jpg')"><img src="images/portfolio/branding/2.jpg" alt="Branding"><div class="pc-ov"><span class="pc-badge">Branding</span></div></div>
-                <div class="pc" onclick="showLb('images/portfolio/branding/3.jpg')"><img src="images/portfolio/branding/3.jpg" alt="Branding"><div class="pc-ov"><span class="pc-badge">Branding</span></div></div>
-            </div>
-            <div style="text-align:center; margin-top: 4rem;">
-                <a href="portfolio.html" class="btn-line">View Full Portfolio</a>
-            </div>
+    <!-- SECTION 6: CONVERTING CTA SCENE -->
+    <section class="contact-cta-layer">
+        <h2>Ready to build something iconic?</h2>
+        <p>Let's map out your project details. Get in touch directly via our communication networks or explore our design blueprints.</p>
+        <div class="hero-btns" style="justify-content: center;">
+            <a href="contact.html" class="btn-fill">Secure Your Booking</a>
         </div>
     </section>
 
-    <section class="cta">
-        <p class="sec-label" style="margin-bottom: 15px;">// Let's Connect</p>
-        <h2>Feeling Confused?</h2>
-        <p>I'd love to chat with you about how I can help. Book a call today.</p>
-        <a href="https://wa.me/923201482901" class="btn-fill" style="background: var(--accent-color); color: #000; border-radius: 50px;">📞 +92 320 1482901</a>
-    </section>
-
+    <!-- FOOTER MATRIX -->
     <footer>
-        <p>&copy; 2026 Umar Creative — AI Crafted Brands, Future-Forward Impact</p>
+        <p>&copy; 2026 Umar Creative — AI-Crafted Brands, Future-Forward Impact.</p>
     </footer>
 
-    <div class="lb" id="lb" onclick="if(event.target===this)closeLb()">
-        <span class="lb-x" onclick="closeLb()">×</span>
-        <img id="lb-img" src="" alt="">
-    </div>
-
+    <!-- INTERACTION LOGIC CONTROL SCRIPT -->
     <script>
+        // Responsive Menu Operations
         function toggleNav(){document.getElementById('navList').classList.toggle('open');}
         function closeNav(){document.getElementById('navList').classList.remove('open');}
-        function showLb(src){document.getElementById('lb-img').src=src;document.getElementById('lb').style.display='flex';}
-        function closeLb(){document.getElementById('lb').style.display='none';}
-        document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();});
 
         const cursor = document.getElementById('custom-cursor');
         const glow = document.getElementById('glow');
 
-        document.addEventListener('mousemove', (e) => {
-            gsap.to(cursor, { x: e.clientX - 8, y: e.clientY - 8, duration: 0.08 });
-            gsap.to(glow, { left: e.clientX - 300, top: e.clientY - 300, duration: 1.4, ease: "power2.out" });
-        });
+        // Mouse Tracing Track Matrix (Only Runs on Desktop Screens)
+        if(window.innerWidth > 768) {
+            document.addEventListener('mousemove', (e) => {
+                gsap.to(cursor, { x: e.clientX - 8, y: e.clientY - 8, duration: 0.08 });
+                gsap.to(glow, { left: e.clientX - 300, top: e.clientY - 300, duration: 1.5, ease: "power2.out" });
+            });
 
-        document.querySelectorAll('a, button, .pc, .portfolio-card, .why-card, .svc-card, .whatsapp-float').forEach(item => {
-            item.addEventListener('mouseenter', () => { cursor.style.transform = 'scale(2.5)'; cursor.style.background = '#22d3ee'; });
-            item.addEventListener('mouseleave', () => { cursor.style.transform = 'scale(1)'; cursor.style.background = '#ffffff'; });
-        });
+            document.addEventListener('mouseover', (e) => {
+                if(e.target.closest('a, button, .portfolio-card, .service-card, .work-item, .whatsapp-float')) {
+                    cursor.style.transform = 'scale(2.5)';
+                    cursor.style.background = '#22d3ee';
+                }
+            });
+            document.addEventListener('mouseout', (e) => {
+                if(e.target.closest('a, button, .portfolio-card, .service-card, .work-item, .whatsapp-float')) {
+                    cursor.style.transform = 'scale(1)';
+                    cursor.style.background = '#ffffff';
+                }
+            });
+        }
 
+        // GSAP Core Scroll Engine Trigger Configuration
         gsap.registerPlugin(ScrollTrigger);
 
-        gsap.fromTo("#hero-title", 
-            { opacity: 1, y: 0, filter: "blur(0px)" },
-            { opacity: 0, y: -80, filter: "blur(12px)", scrollTrigger: { trigger: "#hero-trigger", start: "top top", end: "bottom center", scrub: true } }
-        );
-        gsap.fromTo("#hero-desc, #hero-cta-layer", 
+        // Soft Hero Fade Logic On Scroll
+        gsap.fromTo("#hero-trigger", 
             { opacity: 1, y: 0 },
-            { opacity: 0, y: -40, scrollTrigger: { trigger: "#hero-trigger", start: "top 15%", end: "bottom center", scrub: true } }
+            { opacity: 0, y: -40, scrollTrigger: { trigger: "#hero-trigger", start: "top 10%", end: "bottom center", scrub: true } }
         );
 
         const cards = document.querySelectorAll('.portfolio-card');
         gsap.set(cards, { transformOrigin: "bottom center", z: (i) => -i * 30 });
 
-        gsap.to(cards, {
-            scrollTrigger: { trigger: "#trigger-scene", start: "top 65%", end: "top 15%", scrub: 1.2 },
-            rotationZ: (i) => (i - (cards.length - 1) / 2) * 10, 
-            x: (i) => (i - (cards.length - 1) / 2) * 125,
-            y: (i) => Math.abs(i - (cards.length - 1) / 2) * 20,
-            z: (i) => (i * 12),
-            ease: "power2.out"
+        // RESPONSIVE MATCHMEDIA SYSTEM FOR 3D CAROUSEL SPREAD
+        let mm = gsap.matchMedia();
+
+        mm.add("(min-width: 769px)", () => {
+            // Desktop Spread Logic - Wide Fan Distribution for 5 CARDS (Center is index 2)
+            gsap.to(cards, {
+                scrollTrigger: { trigger: "#trigger-scene", start: "top 60%", end: "top 10%", scrub: 1.2 },
+                rotationZ: (i) => (i - 2) * 10, 
+                x: (i) => (i - 2) * 135,
+                y: (i) => Math.abs(i - 2) * 18,
+                z: (i) => (i * 15),
+                ease: "power2.out"
+            });
+            
+            // Mouse Coordinates Parallax (Desktop Only)
+            const scene = document.getElementById('trigger-scene');
+            scene.addEventListener('mousemove', (e) => {
+                const rect = scene.getBoundingClientRect();
+                const x = e.clientX - rect.left - (rect.width / 2);
+                const y = e.clientY - rect.top - (rect.height / 2);
+                gsap.to(cards, { rotationY: x * 0.04, rotationX: -y * 0.03, duration: 0.5 });
+            });
+            scene.addEventListener('mouseleave', () => {
+                gsap.to(cards, { rotationY: 0, rotationX: 0, duration: 0.8 });
+            });
         });
 
-        const scene = document.getElementById('trigger-scene');
-        scene.addEventListener('mousemove', (e) => {
-            const rect = scene.getBoundingClientRect();
-            const x = e.clientX - rect.left - (rect.width / 2);
-            const y = e.clientY - rect.top - (rect.height / 2);
-            gsap.to(scene, { rotationY: x * 0.025, rotationX: -y * 0.025, duration: 0.6, ease: "power1.out" });
+        mm.add("(max-width: 768px)", () => {
+            // Mobile Spread Logic - Super Tight Fan Boundaries for 3 CARDS (Center is index 1)
+            gsap.to(cards, {
+                scrollTrigger: { trigger: "#trigger-scene", start: "top 75%", end: "top 20%", scrub: 1.2 },
+                rotationZ: (i) => (i - 1) * 7, 
+                x: (i) => (i - 1) * 62, 
+                y: (i) => Math.abs(i - 1) * 12,
+                z: (i) => (i * 8),
+                ease: "power1.out"
+            });
         });
-        scene.addEventListener('mouseleave', () => {
-            gsap.to(scene, { rotationY: 0, rotationX: 0, duration: 0.8 });
-        });
+
     </script>
 </body>
 </html>
